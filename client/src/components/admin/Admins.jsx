@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Plus, Trash2, Copy, Check } from "lucide-react";
 
+const API = "https://gymsmart-backend-gn8m.onrender.com";
+
 const Admins = () => {
   const [admins, setAdmins] = useState([]);
   const [invites, setInvites] = useState([]);
@@ -17,7 +19,7 @@ const Admins = () => {
 
   const fetchAdmins = async () => {
     try {
-      const response = await axios.get("/api/admin");
+      const response = await axios.get(`${API}/api/admin`);
       setAdmins(response.data);
     } catch (error) {
       console.error("Error fetching admins:", error);
@@ -28,7 +30,7 @@ const Admins = () => {
 
   const fetchInvites = async () => {
     try {
-      const response = await axios.get("/api/auth/admin/invites");
+      const response = await axios.get(`${API}/api/auth/admin/invites`);
       setInvites(response.data);
     } catch (error) {
       console.error("Error fetching invites:", error);
@@ -37,7 +39,7 @@ const Admins = () => {
 
   const generateInvite = async () => {
     try {
-      const response = await axios.post("/api/auth/admin/invite");
+      const response = await axios.post(`${API}/api/auth/admin/invite`);
       setNewInvite(response.data);
       setShowModal(true);
       fetchInvites();
@@ -55,7 +57,7 @@ const Admins = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to remove this admin?")) {
       try {
-        await axios.delete(`/api/admin/${id}`);
+        await axios.delete(`${API}/api/admin/${id}`);
         fetchAdmins();
       } catch (error) {
         alert(error.response?.data?.error || "Failed to delete admin");
